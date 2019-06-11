@@ -61,7 +61,8 @@ open class ApiTest {
         }
       }
     } catch (e: Exception) {
-      fail("Could not create api from $method")
+      e.printStackTrace()
+      fail("Failed to run tests for method $method")
     }
   }
 

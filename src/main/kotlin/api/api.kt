@@ -152,5 +152,5 @@ fun main(args: Array<String>) {
   println(api.call())
 }
 
-// TODO: Finish Writing Tests
+// TODO: Shorten enum/error names
 // TODO: Setup error codes
