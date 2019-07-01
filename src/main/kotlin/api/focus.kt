@@ -55,6 +55,7 @@ abstract class FocusApi(method: String, group: Group, description: String) : Api
     }
   }
 }
+
 /**
  * This API provides a function to enable touch AF and set the position.
  */
@@ -171,4 +172,82 @@ class GetAvailableTrackingFocus : Api(
   method = "getAvailableTrackingFocus",
   group = Group.TrackingFocus,
   description = "Get Available Tracking Focus Settings"
+)
+
+/**
+ * This API provides a function to set the focus mode.
+ */
+class SetFocusMode : Api(
+  method = "setFocusMode",
+  group = Group.FocusMode,
+  description = "Set Focus Mode",
+  options = InputType.Select to arrayOf(
+    FocusModes.AFS.title,
+    FocusModes.AFC.title,
+    FocusModes.DMF.title,
+    FocusModes.MF.title
+  )
+) {
+  /**
+   * Exception to be thrown when a given [Group.FocusMode] string is invalid.
+   */
+  class InvalidFocusMode(message: String) : Exception(message)
+
+  /**
+   * Outlines all possible focus modes.
+   */
+  enum class FocusModes(val title: String, val param: String) {
+    AFS("Single AF (AF-S)", "AF-S"),
+    AFC("Continuous AF (AF-C)", "AF-C"),
+    DMF("Direct Manual Focus (DMF)", "DMF"),
+    MF("Manual Focus (MF)", "MF");
+
+    companion object {
+      fun fromString(title: String): FocusModes {
+        val mode = FocusModes.values().find { it.title == title }
+        return mode
+          ?: throw InvalidFocusMode("No focus mode for '$title'!")
+      }
+    }
+  }
+
+  override fun parse(params: Array<Any>): Array<Any> {
+    val param = params.first()
+    return if (param is String) {
+      val mode = FocusModes.fromString(param).param
+      arrayOf(mode)
+    } else {
+      throw InvalidFocusMode("Only string parameters are permitted!")
+    }
+  }
+}
+
+/**
+ * This API provides a function to get current focus mode.
+ */
+class GetFocusMode : Api(
+  method = "getFocusMode",
+  group = Group.FocusMode,
+  description = "Get Focus Mode"
+)
+
+/**
+ * This API provides a function to get the supported focus modes. The client should use
+ * "getAvailableFocusMode" to get the available parameters at the moment.
+ */
+class GetSupportedFocusMode : Api(
+  method = "getSupportedFocusMode",
+  group = Group.FocusMode,
+  description = "Get Supported Focus Modes"
+)
+
+/**
+ * This API provides a function to get current focus mode and the available focus modes at
+ * the moment. The available parameters can be changed by user operations and calling
+ * APIs.
+ */
+class GetAvailableFocusMode : Api(
+  method = "getAvailableFocusMode",
+  group = Group.FocusMode,
+  description = "Get Available Focus Modes"
 )

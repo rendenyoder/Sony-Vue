@@ -1,7 +1,9 @@
 package api
 
+import api.Group.FocusMode
 import api.Group.TouchAutoFocusPosition
 import api.Group.TrackingFocus
+import api.SetFocusMode.FocusModes
 import org.junit.Test
 
 /**
@@ -101,5 +103,47 @@ class FocusApiTest : ApiTest() {
   @Test
   fun getAvailableTrackingFocus() {
     basicTest("getAvailableTrackingFocus", TrackingFocus)
+  }
+
+  /**
+   * [SetFocusMode]
+   */
+  @Test
+  fun setFocusMode() {
+    complexTest(
+      method = "setFocusMode",
+      group = FocusMode,
+      input = InputType.Select,
+      ioMap = mapOf(
+        arrayOf(FocusModes.AFS.title) to arrayOf(FocusModes.AFS.param),
+        arrayOf(FocusModes.AFC.title) to arrayOf(FocusModes.AFC.param),
+        arrayOf(FocusModes.DMF.title) to arrayOf(FocusModes.DMF.param),
+        arrayOf(FocusModes.MF.title) to arrayOf(FocusModes.MF.param)
+      )
+    )
+  }
+
+  /**
+   * [GetFocusMode]
+   */
+  @Test
+  fun getFocusMode() {
+    basicTest("getFocusMode", FocusMode)
+  }
+
+  /**
+   * [GetSupportedFocusMode]
+   */
+  @Test
+  fun getSupportedFocusMode() {
+    basicTest("getSupportedFocusMode", FocusMode)
+  }
+
+  /**
+   * [GetAvailableFocusMode]
+   */
+  @Test
+  fun getAvailableFocusMode() {
+    basicTest("getAvailableFocusMode", FocusMode)
   }
 }
