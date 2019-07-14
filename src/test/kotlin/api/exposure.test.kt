@@ -59,7 +59,7 @@ class ExposureApiTest : ApiTest() {
    */
   @Test
   fun setExposureCompensation() = complexTest(
-    method = "SetExposureCompensation",
+    method = "setExposureCompensation",
     group = ExposureCompensation,
     input = InputType.Numerical,
     ioMap = mapOf(
